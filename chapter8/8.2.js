@@ -20,20 +20,20 @@ const match = (w, s) => {
   // 인덱스가 범위안에 있고 패턴에 ?가 있거나 값이 일치하면
   if (s < S.length && w < W.length && (W[w] == '?' || W[w] == S[s])) {
     // 다음 값을 계산하는 재귀 호출
-    return ret = match(w + 1, s + 1);
+    return cache[w][s] = match(w + 1, s + 1);
   }
   // 패턴 마지막에 도달한 경우 문자열도 끝났는지 확인
-  if (w == W.length) return ret = Number(s == S.length);
+  if (w == W.length) return cache[w][s] = Number(s == S.length);
   // *를 만나서 끝난 경우
   if (W[w] == '*') {
     // *에 몇글자를 대응할지 재귀 호출
     // 첫번째 조건은 0글자
     // 두번째는 1글자 이상
     if (match(w + 1, s) || (s < S.length && match(w, s + 1))) {
-      return ret = 1;
+      return cache[w][s] = 1;
     }
   }
   return 0;
 }
-let S = input[4]
+let S = input[2]
 console.log(match(0, 0));
