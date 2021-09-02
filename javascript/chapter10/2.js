@@ -141,4 +141,27 @@ function mergeSort(array) {
   return merge(mergeSort(leftArray), mergeSort(rightArray));
 }
 
-console.log(mergeSort([6, 1, 23, 4, 2, 3]))
+// console.log(mergeSort([6, 1, 23, 4, 2, 3]))
+
+// 계수 정렬
+// O(k + n) k 는 해쉬, n은 배열길이 O(k) 해쉬값들만큼 더 만들어야해서
+function countSort(array) {
+  let hash = {}, countArr = [];
+  for (let i = 0; i < array.length; i++) {
+    if (!hash[array[i]]) hash[array[i]] = 1;
+    else hash[array[i]]++;
+  }
+
+  for (let key in hash) {
+    for (let i = 0; i < hash[key]; i++) countArr.push(parseInt(key));
+  }
+  return countArr;
+}
+
+// console.log(countSort([6, 1, 23, 2, 3, 2, 1, 2, 2, 3, 3, 1, 123, 123, 4, 2, 3]))
+
+var array1 = [12, 3, 4, 2, 1, 34, 23];
+
+function comparatorNumber(a, b) { return a - b; }
+console.log(array1.sort(comparatorNumber));
+console.log(array1.sort((a, b) => b - a))
