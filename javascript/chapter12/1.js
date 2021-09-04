@@ -20,6 +20,10 @@ Stack.prototype.push = function (value) {
   this.array.push(value);
 }
 
+Stack.prototype.pop = function () {
+  return this.array.pop();
+}
+
 let stack1 = new Stack();
 console.log(stack1);
 
@@ -28,9 +32,7 @@ console.log(stack1.peek())
 stack1.push(5);
 console.log(stack1.peek())
 
-Stack.prototype.pop = function () {
-  return this.array.pop();
-}
+
 
 stack1.pop()
 console.log(stack1)
