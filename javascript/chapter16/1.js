@@ -79,18 +79,18 @@ MinHeap.prototype.poll = function () {
   return item;
 }
 
-var mh1 = new MinHeap();
-mh1.add(1);
-mh1.add(10);
-mh1.add(5);
-mh1.add(100);
-mh1.add(8);
+// var mh1 = new MinHeap();
+// mh1.add(1);
+// mh1.add(10);
+// mh1.add(5);
+// mh1.add(100);
+// mh1.add(8);
 
-console.log(mh1.poll());
-console.log(mh1.poll());
-console.log(mh1.poll());
-console.log(mh1.poll());
-console.log(mh1.poll());
+// console.log(mh1.poll());
+// console.log(mh1.poll());
+// console.log(mh1.poll());
+// console.log(mh1.poll());
+// console.log(mh1.poll());
 
 function MaxHeap() {
   this.items = [];
@@ -130,15 +130,89 @@ MaxHeap.prototype.bubbleUp = function () {
   }
 }
 
-var mh2 = new MaxHeap();
-mh2.add(1);
-mh2.add(10);
-mh2.add(5);
-mh2.add(100);
-mh2.add(8);
+// var mh2 = new MaxHeap();
+// mh2.add(1);
+// mh2.add(10);
+// mh2.add(5);
+// mh2.add(100);
+// mh2.add(8);
 
-console.log(mh2.poll());
-console.log(mh2.poll());
-console.log(mh2.poll());
-console.log(mh2.poll());
-console.log(mh2.poll());
+// console.log(mh2.poll());
+// console.log(mh2.poll());
+// console.log(mh2.poll());
+// console.log(mh2.poll());
+// console.log(mh2.poll());
+
+// 연습문제 1
+function MedianHeap() {
+  this.minHeap = new MinHeap();
+  this.maxHeap = new MaxHeap();
+}
+
+MedianHeap.prototype.add = function (value) {
+  if (value > this.median()) this.minHeap.add(value);
+  else this.maxHeap.add(value);
+
+  if (this.minHeap.size() - this.maxHeap.size() > 1) {
+    this.maxHeap.add(this.minHeap.poll())
+  }
+
+  if (this.maxHeap.size() - this.minHeap.size() > 1) {
+    this.minHeap.add(this.maxHeap.poll())
+  }
+}
+
+MedianHeap.prototype.median = function () {
+  if (this.minHeap.size() == 0 && this.maxHeap.size() == 0) {
+    return Number.NEGATIVE_INFINITY;
+  } else if (this.minHeap.size() == this.maxHeap.size()) {
+    return (this.minHeap.peek() + this.maxHeap.peek()) / 2;
+  } else if (this.minHeap.size() > this.maxHeap.size()) {
+    return this.minHeap.peek();
+  } else {
+    return this.maxHeap.peek();
+  }
+}
+
+// var medianH = new MedianHeap();
+
+// medianH.add(12);
+// console.log(medianH.median());
+// medianH.add(2);
+// console.log(medianH.median());
+// medianH.add(23);
+// console.log(medianH.median());
+// medianH.add(13);
+// console.log(medianH.median());
+
+var array1 = [12, 3, 13, 4, 2, 40, 23];
+
+function getKthSmallestElement(array, k) {
+  var minH = new MinHeap();
+  for (let i = 0, arrayLength = array.length; i < arrayLength; i++) {
+    minH.add(array[i]);
+  }
+  for (let i = 1; i < k; i++) {
+    minH.poll();
+  }
+  return minH.poll();
+}
+
+// console.log(getKthSmallestElement(array1, 2));
+// console.log(getKthSmallestElement(array1, 1));
+// console.log(getKthSmallestElement(array1, 7));
+
+function getKthBiggestElement(array, k) {
+  var maxH = new MaxHeap();
+  for (let i = 0, arrayLength = array.length; i < arrayLength; i++) {
+    maxH.add(array[i]);
+  }
+  for (let i = 1; i < k; i++) {
+    maxH.poll();
+  }
+  return maxH.poll();
+}
+
+console.log(getKthBiggestElement(array1, 2))
+console.log(getKthBiggestElement(array1, 1))
+console.log(getKthBiggestElement(array1, 7))
