@@ -95,16 +95,57 @@ DirectedGraph.prototype.Dijkstra = function (source) {
   return dist;
 }
 
-var digraph1 = new DirectedGraph();
-digraph1.addVertex('A');
-digraph1.addVertex('B');
-digraph1.addVertex('C');
-digraph1.addVertex('D');
-digraph1.addEdge('A', 'B', 1)
-digraph1.addEdge('B', 'C', 1)
-digraph1.addEdge('C', 'A', 1)
-digraph1.addEdge('A', 'D', 1)
-console.log(digraph1)
+DirectedGraph.prototype.topologicalSortUtil = function (v, visited, stack) {
+  visited.add(v);
+
+  for (let item in this.edges[v]) {
+    if (visited.has(item) == false) {
+      this.topologicalSortUtil(item, visited, stack);
+    }
+  }
+  stack.unshift(v);
+}
+
+DirectedGraph.prototype.topologicalSort = function () {
+  let visited = new Set(), stack = [];
+
+  for (let item in this.edges) {
+    if (visited.has(item) == false) {
+      this.topologicalSortUtil(item, visited, stack);
+    }
+  }
+  return stack;
+}
+
+// var digraph1 = new DirectedGraph();
+// digraph1.addVertex('A');
+// digraph1.addVertex('B');
+// digraph1.addVertex('C');
+// digraph1.addVertex('D');
+// digraph1.addEdge('A', 'B', 1)
+// digraph1.addEdge('B', 'C', 1)
+// digraph1.addEdge('C', 'A', 1)
+// digraph1.addEdge('A', 'D', 1)
+// console.log(digraph1)
 
 // digraph1.traverseBFS('B', vertex => console.log(vertex));
-console.log(digraph1.Dijkstra('A'))
+// console.log(digraph1.Dijkstra('A'))
+
+var g = new DirectedGraph();
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
+
+g.addEdge('B', 'A');
+g.addEdge('D', 'C');
+g.addEdge('D', 'B');
+g.addEdge('A', 'F');
+g.addEdge('E', 'C');
+g.addEdge('E', 'F');
+
+var topologicalOrder = g.topologicalSort();
+console.log(g);
+console.log(topologicalOrder)
